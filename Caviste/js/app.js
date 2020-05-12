@@ -69,7 +69,7 @@ function showListe(wines) {
     wines.forEach(function(wine) {
         let idWine = wine.id;
 
-        strLIs += '<h3 data-id="'+idWine+'" class="mg-clear">'+wine.name+'</h3>';
+        strLIs += '<li data-id="'+idWine+'" class="mg-clear">'+wine.name+'</li>';
     });
 
     //Insérer tous les LIs dans la liste UL des vins
