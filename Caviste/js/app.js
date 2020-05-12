@@ -82,8 +82,16 @@ function showListe(wines) {
     for(let li of nodeLIs) {
         li.addEventListener('click',function() { 
             getWine(this.dataset.id, wines, false);
+
+            //Affichage nom wine dans courbe stat
+            document.querySelector('h5.mg-clear').innerHTML = document.getElementById('name').value; 
+            //Affichage img wine dans courbe stat
+            document.getElementsByClassName('img-fluid')[3].src = document.getElementsByClassName('img-fluid')[1].src;
         });
     }
+    
+        
+            
 }
 //getWine()
 function getWine(id, wines) {
@@ -124,7 +132,7 @@ function getWine(id, wines) {
 
     let imgWine = document.getElementById('picture');	
     imgWine.src = wine.picture!='' ? picturesURL + wine.picture : 'images/pics/No_picture_available.png';	
-	imgWine.alt = wine.picture;	
+    imgWine.alt = wine.picture;	
 }
 
 
@@ -312,5 +320,5 @@ function deleteWine() {
                 newWine();
             });
         }
-    });
+    });							
 }
