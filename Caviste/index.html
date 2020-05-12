@@ -774,11 +774,13 @@
 						<div class="row">
 							<div class="col-lg-7">
 								<div class="form-group">
-									<input class="form-control field-0-style" placeholder="Entrez le mot-clé ici" maxlength="50" />
+									<input type="text" name="keyword" id="keyword" 
+                               placeholder="Entrez le mot-clé ici" 
+                               class="form-control field-0-style" maxlength="10" />
 								</div>
 							</div>
 							<div class="col">
-								<a href="./" id="btSearch" class="btn float-lg-right btn-ruddy-brown btn-block">Chercher</a>
+								<button id="btSearch" class="btn float-lg-right btn-ruddy-brown btn-block">Chercher</bouton>
 							</div>
 						</div>
 						<div class="row">
@@ -835,13 +837,12 @@
 			<div class="col-md-4">
 				<div class="card card-saint-emillion">
 					<div class="card-header bgc-ghost-white">
-						<h3 class="mg-clear text-lg-center h3-9-style">
-							Bouteuille de vin
-						</h3>
+						<label class="label-4-style">Nom: </label>
+						<input id="name" class="form-control input-region" />
 					</div>
 					<div class="card-body bgc-ghost-white">
-						<img src="images/pics/generic.jpg" data-src="images/pics/generic.jpg" class="img-fluid mx-auto d-block img-18-style lazyload" alt="Generic Wine Bottle" />
-						<div class="card-body text-right"
+						<img src="images/pics/generic.jpg" data-src="images/pics/generic.jpg" class="img-fluid mx-auto d-block img-18-style lazyload" id="picture" alt="Generic Wine Bottle" />
+						<div class="card-body text-right">
                             <button type="button" class="btn btn-light" id="btImgChange">
                                 <i class="fas fa-pencil-alt"></i>
                                 <input id="pictureFile" name="pictureFile" type="file" pattern=".*\.(jp(e)?g|png)$" class="form-control input-md" hidden>
@@ -857,25 +858,21 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="label-4-style">Nom: </label>
-					<input id="name" class="form-control input-region" />
-				</div>
-				<div class="form-group">
 					<label class="label-6-style">Année:	</label>
 					<input id="year" class="form-control input-caractere" />
 				</div>
 				<div class="row">
 					<div class="col">
-						<a href="./" id="btNewWine" class="btn btn-d btn-lg btn-block">Ajouter</a>
+						<button id="btNewWine" class="btn btn-d btn-lg btn-block">Ajouter</button>
 					</div>				
 					<div class="col">
-						<a href="./" id="btSave" class="btn btn-lg btn-block btn-ruddy-brown">Sauver</a>
+						<button id="btSave" class="btn btn-lg btn-block btn-ruddy-brown">Sauver</button>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col">
 						<label class="label-région-style"> </label>
-						<a href="./" id="btDelete" class="btn btn-lg btn-block btn-ruddy-brown">Supprimer</a>
+						<button id="btDelete" class="btn btn-lg btn-block btn-ruddy-brown">Supprimer</button>
 					</div>
 				</div>
 			</div>
@@ -941,7 +938,7 @@
 					</div>
 				<div class="form-group">
 					<label class="label-2-style" for="notes">Description:</label>	
-						<textarea id="description" class="form-control input-caractere" id="description" name="description" rows="2"></textarea>			
+						<textarea id="description" class="form-control input-caractere" id="description" name="description" rows="4"></textarea>			
 				</div>
 				</div>
 			</div>
@@ -1038,14 +1035,14 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<a href="#" class="btn btn-lg btn-d float-lg-none btn-block">Ajouter</a>
+						<a href="#" id="btNewWine" class="btn btn-lg btn-d float-lg-none btn-block">Ajouter</a>
 					</div>
 					<div class="col">
-						<a href="#" class="btn btn-lg btn-ruddy-brown btn-block">Supprimer</a>
+						<a href="#" id="btDelete" class="btn btn-lg btn-ruddy-brown btn-block">Supprimer</a>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-6 offset-lg-1">
+			<!-- <div class="col-md-6 offset-lg-1">
 				<div class="row btn-contries-years-filter">
 					<div class="col-lg-3">
 						<div class="btn-group btn-dropdown">
@@ -1076,7 +1073,7 @@
 					<div class="col offset-lg-0">
 						<a href="./" class="btn btn-lg btn-block btn-azure">Filtre</a>
 					</div>
-				</div>
+				</div> -->
 				<!-- <div class="form-group">
 					<label class="label-style">
 						Région
@@ -1185,7 +1182,7 @@
 						</h5>
 					</div>
 					<div class="card-body bgc-linen card-body-style">
-						<img src="img/lazyload-ph.png" data-src="img/DPts9kjX4AA9Nv9.png" class="img-fluid mx-auto d-block img-dpts9kjx4aa9n-style lazyload" alt="DPts9kjX4AA9Nv9" /><span class="fa fa-star icon-md float-lg-none star-1 icon-topaz"></span><span class="fa fa-star icon-md float-lg-none star-2 icon-topaz"></span><span class="fa fa-star icon-md float-lg-none star-3"></span><span class="fa fa-star icon-md float-lg-none star-4"></span><span class="fa fa-star icon-md float-lg-none star-5"></span>
+						<img src="img/lazyload-ph.png" data-src="img/DPts9kjX4AA9Nv9.png" class="img-fluid mx-auto d-block img-dpts9kjx4aa9n-style lazyload" alt="DPts9kjX4AA9Nv9" /><span class="fa fa-star icon-md float-lg-none star-1 icon-topaz"></span><span class="fa fa-star icon-md float-lg-none star-2 icon-topaz"></span><span class="fa fa-star icon-md float-lg-none star-2"></span><span class="fa fa-star icon-md float-lg-none star-4"></span><span class="fa fa-star icon-md float-lg-none star-4"></span>
 					</div>
 				</div>
 			</div>

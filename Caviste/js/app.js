@@ -7,7 +7,7 @@ window.onload = function() {
         'method':'GET'
     };
     
-    fetch(apiURL + '/wines.json', options).then(function(response) {
+    fetch(apiURL + '/wines', options).then(function(response) {
         if(response.ok) {
             response.json().then(function(data){
                 wines = data;
@@ -76,7 +76,7 @@ function showListe(wines) {
     listeUL.innerHTML = strLIs;
 
     //Récupérer tous les LIs
-    let nodeLIs = listeUL.getElementsByTagName('h3');
+    let nodeLIs = listeUL.getElementsByTagName('li');
 
     //Ajouter un gestionnaire d'événement sur chaque LI
     for(let li of nodeLIs) {
@@ -314,16 +314,3 @@ function deleteWine() {
         }
     });
 }
-
-
-
-
-
-
-
-
-    
-
-
-
-
