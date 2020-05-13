@@ -3,6 +3,7 @@ const picturesURL = 'http://localhost/WebDevProject01/Caviste/images/pics/';
 let wines;
 
 window.onload = function() {
+
     const options = {
         'method':'GET'
     };
@@ -49,7 +50,19 @@ window.onload = function() {
     btDelete.addEventListener('click', deleteWine);
 	
 	let btImgChange = document.getElementById('btImgChange');
-	btImgChange.addEventListener('click', chgImg);		
+    btImgChange.addEventListener('click', chgImg);     
+
+    let btContact = document.getElementById('contact-titre');
+    btContact.addEventListener('click', afficheFormContact);
+    
+    //Cacher la section courbe stat
+    document.getElementById('courbe-et-stat-donnees-').hidden = 'true';
+
+    //Cacher le formulaire de contact
+    document.getElementById('contact-formulaire').hidden = 'true';
+
+    //Cacher le bouton envoyer du formulaire de contact
+    document.getElementById('contact-btn-envoyer').hidden = 'true';; 
 };
 
   //Fonction pour charger l'image->chImg()
@@ -57,6 +70,13 @@ function chgImg(){
 	let pictureFile = document.getElementById('pictureFile');
 	pictureFile.click(); 
 } 
+
+//Fonction pour afficher le formulaire contact et son bouton envoyer
+function afficheFormContact(){
+    document.getElementById('contact-formulaire').show = 'true';    
+    
+   document.getElementById('contact-btn-envoyer').show = 'true';
+}
 
 
 //Afficher la liste des vins->showListe()
@@ -70,6 +90,7 @@ function showListe(wines) {
         let idWine = wine.id;
 
         strLIs += '<li data-id="'+idWine+'" class="mg-clear">'+wine.name+'</li>';
+      
     });
 
     //Insérer tous les LIs dans la liste UL des vins
@@ -85,8 +106,12 @@ function showListe(wines) {
 
             //Affichage nom wine dans courbe stat
             document.querySelector('h5.mg-clear').innerHTML = document.getElementById('name').value; 
+            
             //Affichage img wine dans courbe stat
             document.getElementsByClassName('img-fluid')[3].src = document.getElementsByClassName('img-fluid')[1].src;
+        
+              //Afficher la section courbe stat
+            document.getElementById('courbe-et-stat-donnees-').hidden='false';
         });
     }
     
@@ -320,5 +345,5 @@ function deleteWine() {
                 newWine();
             });
         }
-    });							
-}
+    });
+}   
