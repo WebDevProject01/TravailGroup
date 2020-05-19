@@ -1,4 +1,4 @@
-const apiURL = 'http://WebDevProject01/Caviste/js';        
+const apiURL = 'https://cruth.phpnet.org/epfc/caviste/public/index.php/api';        
 const picturesURL = 'http://localhost/WebDevProject01/Caviste/images/pics/';
 let wines;
 
@@ -50,51 +50,44 @@ window.onload = function() {
     btDelete.addEventListener('click', deleteWine);
 	
 	let btImgChange = document.getElementById('btImgChange');
-    btImgChange.addEventListener('click', chgImg);     
+    btImgChange.addEventListener('click', chgImg);   
 
-    let btContact = document.getElementById('contact-titre');
-    btContact.addEventListener('click', afficheFormContact);
+    let btnFiltre = document.getElementById('btnFiltre');
+    btnFiltre.addEventListener('click', getWine);
     
-    //Cacher la section courbe stat
-    document.getElementById('courbe-et-stat-donnees-').hidden = 'true';
+      //Cacher la section courbe stat
+    //document.getElementById('courbe-et-stat-donnees-').hidden = 'true';
 
     //Cacher le formulaire de contact
-    document.getElementById('contact-formulaire').hidden = 'true';
+    //document.getElementById('contact-formulaire').hidden = 'true';
 
     //Cacher le bouton envoyer du formulaire de contact
-    document.getElementById('contact-btn-envoyer').hidden = 'true';; 
+    //document.getElementById('contact-btn-envoyer').hidden = 'true';  
 };
-
+   
   //Fonction pour charger l'image->chImg()
 function chgImg(){
 	let pictureFile = document.getElementById('pictureFile');
 	pictureFile.click(); 
 } 
 
-//Fonction pour afficher le formulaire contact et son bouton envoyer
-function afficheFormContact(){
-    document.getElementById('contact-formulaire').show = 'true';    
-    
-   document.getElementById('contact-btn-envoyer').show = 'true';
-}
-
-
 //Afficher la liste des vins->showListe()
 function showListe(wines) {
     //Sélectionner la liste des vins
     let listeUL = document.getElementById('liste');
     let strLIs = '';
-
+       
     //Pour chaque vin, créer un LI
     wines.forEach(function(wine) {
         let idWine = wine.id;
 
-        strLIs += '<li data-id="'+idWine+'" class="mg-clear">'+wine.name+'</li>';
-      
+        strLIs += '<li data-id="'+idWine+'" class="list-group">'+wine.name+'</li>';
     });
 
     //Insérer tous les LIs dans la liste UL des vins
     listeUL.innerHTML = strLIs;
+
+    // listeUL.innerHTML = strLIss;
 
     //Récupérer tous les LIs
     let nodeLIs = listeUL.getElementsByTagName('li');
@@ -104,20 +97,24 @@ function showListe(wines) {
         li.addEventListener('click',function() { 
             getWine(this.dataset.id, wines, false);
 
+            //Affichage du nom de vin -> Catalogue
+            //document.querySelector('ul.mg-clear').innerHTML = document.querySelector('li.list-group').innerHTML;
+
+            //Affichage de l'mage de vin
+            
+
             //Affichage nom wine dans courbe stat
-            document.querySelector('h5.mg-clear').innerHTML = document.getElementById('name').value; 
+            //document.querySelector('h5.bt-wine').innerHTML = document.getElementById('name').value; 
             
             //Affichage img wine dans courbe stat
-            document.getElementsByClassName('img-fluid')[3].src = document.getElementsByClassName('img-fluid')[1].src;
-        
-              //Afficher la section courbe stat
-            document.getElementById('courbe-et-stat-donnees-').hidden='false';
+            //document.getElementsByClassName('img-courbe')[0].src = document.getElementsByClassName('img-win')[0].src;
+
+            //Affichage de la description
+            //document.querySelector('div#nav-44518-content-1').innerText = document.getElementById('description').value;          
         });
-    }
-    
-        
-            
+    }  
 }
+
 //getWine()
 function getWine(id, wines) {
     let wine = wines.find(wine => wine.id == id);
@@ -347,3 +344,94 @@ function deleteWine() {
         }
     });
 }   
+
+//Fonction carousel
+// Variables globales
+let compteur = 0 // Compteur qui permettra de savoir sur quelle slide nous sommes
+let timer, elements, slides, slideWidth
+
+function carousel(){
+
+    window.onload = () => {
+    // On récupère le conteneur principal du diaporama
+    const diapo = document.querySelector(".diapo")
+
+    // On récupère le conteneur de tous les éléments
+    elements = document.querySelector(".elements")
+
+    // On récupère un tableau contenant la liste des diapos
+    slides = Array.from(elements.children)
+
+    // On calcule la largeur visible du diaporama
+    slideWidth = diapo.getBoundingClientRect().width
+
+    // On récupère les deux flèches
+    let next = document.querySelector("#nav-droite")
+    let prev = document.querySelector("#nav-gauche")
+
+    // On met en place les écouteurs d'évènements sur les flèches
+    next.addEventListener("click", slideNext)
+    prev.addEventListener("click", slidePrev)
+
+    // Automatiser le diaporama
+    timer = setInterval(slideNext, 4000)
+
+    // Gérer le survol de la souris
+    diapo.addEventListener("mouseover", stopTimer)
+    diapo.addEventListener("mouseout", startTimer)
+
+    // Mise en oeuvre du "responsive"
+    window.addEventListener("resize", () => {
+        slideWidth = diapo.getBoundingClientRect().width
+        slideNext()
+    })
+}
+
+/**
+ * Cette fonction fait défiler le diaporama vers la droite
+ */
+function slideNext(){
+    // On incrémente le compteur
+    compteur++
+
+    // Si on dépasse la fin du diaporama, on "rembobine"
+    if(compteur == slides.length){
+        compteur = 0
+    }
+
+    // On calcule la valeur du décalage
+    let decal = -slideWidth * compteur
+    elements.style.transform = `translateX(${decal}px)`
+}
+
+/**
+ * Cette fonction fait défiler le diaporama vers la gauche
+ */
+function slidePrev(){
+    // On décrémente le compteur
+    compteur--
+
+    // Si on dépasse le début du diaporama, on repart à la fin
+    if(compteur < 0){
+        compteur = slides.length - 1
+    }
+
+    // On calcule la valeur du décalage
+    let decal = -slideWidth * compteur
+    elements.style.transform = `translateX(${decal}px)`
+}
+
+/**
+ * On stoppe le défilement
+ */
+function stopTimer(){
+    clearInterval(timer)
+}
+
+/**
+ * On redémarre le défilement
+ */
+function startTimer(){
+    timer = setInterval(slideNext, 4000)
+}
+}
