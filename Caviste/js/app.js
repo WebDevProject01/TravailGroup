@@ -124,13 +124,13 @@ let wines;
 
         //Configuration des boutons
         let btSearch = document.getElementById('btSearch');
-        btSearch.addEventListener('click', search);
+        btSearch.addEventListener('click', search); 
         
         let btNewWine = document.getElementById('btNewWine');
         btNewWine.addEventListener('click', newWine);
         
-        let btSave = document.getElementById('btSave');
-        btSave.addEventListener('click', saveWine);
+        /* let btSave = document.getElementById('btSave');
+        btSave.addEventListener('click', saveWine); */
         
         let btDelete = document.getElementById('btDelete');
         btDelete.addEventListener('click', deleteWine);
@@ -145,16 +145,10 @@ let wines;
         btLike.addEventListener('click', like);
 
         let btnLike = document.getElementById('btnLike');
-        btLike.addEventListener('click', nonLike);
+        btLike.addEventListener('click', nonLike);   
         
-        //Cacher la section courbe stat
-        //document.getElementById('courbe-et-stat-donnees-').hidden = 'true';
-
-        //Cacher le formulaire de contact
-        //document.getElementById('contact-formulaire').hidden = 'true';
-
-        //Cacher le bouton envoyer du formulaire de contact
-        //document.getElementById('contact-btn-envoyer').hidden = 'true';         
+        let btCountry = document.getElementById('liste');
+        btCountry.addEventListener('click', showCountry);
 };
    
   //Fonction pour charger l'image->chImg()
@@ -173,13 +167,12 @@ function showListe(wines) {
     wines.forEach(function(wine) {
         let idWine = wine.id;
 
-        strLIs += '<li data-id="'+idWine+'" class="list-group">'+wine.name+'</li>';
+        strLIs += '<li data-id="'+idWine+'" class="list-group-item">'+wine.name+'</li>';
     });
+
 
     //Insérer tous les LIs dans la liste UL des vins
     listeUL.innerHTML = strLIs;
-
-    // listeUL.innerHTML = strLIss;
 
     //Récupérer tous les LIs
     let nodeLIs = listeUL.getElementsByTagName('li');
@@ -200,9 +193,38 @@ function showListe(wines) {
             imgWine[0].src = imgAff[0].src;
 
             //Affichage de la description
-            let descrOut = document.querySelector('div#nav-44518-content-1');
-            let descrIn = document.getElementById('description');        
-            descrOut.innerText = descrIn.value; 
+            let desriOut = document.querySelector('div#nav-44518-content-1');
+            let descriIN = document.getElementById('description');
+            desriOut.innerHTML = descriIN.value;
+
+            
+            //Retrouver les comments d'un vin par son Id
+            
+                const commeId = document.getElementById('idWine').value;
+                const options = {
+                    'method': 'GET',
+                    'mode': 'cors',
+                    'headers': {
+                        'content-type': 'application/json; charset=utf-8',
+                    }
+                };
+                
+                const fetchURL = '/wines/'+commeId+'/comments';
+                
+                let comments = fetch(apiURL + fetchURL, options).then(function(response) {
+                    if(response.ok) {
+                        response.json().then(function(data){
+                            console.log(data);
+                        });
+                    }
+                });
+                Object.values(comments).forEach(function(c){
+                    let comments = c.content;
+                })
+                console.log(comments);
+
+                let affComments = document.querySelector('div#nav-44518-content-2');
+                affComments.innerText = getWine(commeId, comments);
         });
     }  
 }
@@ -249,9 +271,40 @@ function getWine(id, wines) {
     imgWine.alt = wine.picture;	
 }
 
+//Afficher les pays -> showListePays
+/* function showListPays(){
+    let pays = fetch('https://cruth.phpnet.org/epfc/caviste/public/index.php/api/wines/countries')
+	  .then(response => response.json())
+      .then(json => console.log(json))
+      
+      let listPays = '';
+      pays.forEach(function(p) {
+        console.log(p[0]);
+      })
+}
+showListPays(); */
 
-//Rechercher un vin dans laliste->search()
-function search() {
+//Rechercher un vin dans la liste->search()
+function search(){
+    let inputKeyword = document.getElementById('keyword');
+    let keyword = inputKeyword.value;
+    let reg = new RegExp(keyword, 'i');
+
+    let filteredWines = Object.values(wines).forEach(function(wine){
+        if(wine.name.search(reg) != -1 ){
+            return (wine.name);
+        }
+       else if(wine.year.search(reg) != -1 && (wine.year.length === 4)){
+            return (wine.name);
+        }
+        else if(wine.id.search(reg) != -1){
+            return (wine.name);
+        }
+    })
+    showListe(filteredWines);
+
+} 
+/* function search() {
     let inputKeyword = document.getElementById('keyword');
     let keyword = inputKeyword.value;   
     
@@ -261,7 +314,36 @@ function search() {
 
     //Afficher les vins dans le UL liste
     showListe(filteredWines);			
+} */
+
+//Rechercher un vin dans la liste par son Id->searchId()
+function searchId() {
+    const recheId = document.getElementById('keyword').value;
+	const options = {
+        'method': 'GET',	
+        'mode': 'cors',
+        'headers': {
+            'content-type': 'application/json; charset=utf-8',	
+        }
+    };
+    
+    const fetchURL = '/wines/'+recheId;
+    
+    let vin = fetch(apiURL + fetchURL, options).then(function(response) {
+        if(response.ok) {
+            response.json().then(function(data){
+                console.log(data);
+            });
+        }
+    });
+    getWine(recheId, vin)
 }
+
+//Liste des pays
+let listPays = '';
+      Object.values(pays).forEach(function(p) {
+        console.log(p[0]);
+      })
 
 //Ajouter un vin->newWine()
 function newWine() {
@@ -440,23 +522,25 @@ function deleteWine() {
 //Afficher la liste des pays->showCountry()
 function showCountry(wines) {
     //Sélectionner la liste des vins
-    let listePays = document.getElementById('pays');
-    let strLIs = '';
+    let listePays = document.getElementById('liste');
+    let paysLIs = '';
            
-    //Pour chaque vin, créer un LI
+    //Pour chaque vin, créer un LI des pays
     wines.forEach(function(wine) {
         let idWine = wine.id;
         
-        strLIs += '<li data-id="'+idWine+'" class="list-group">'+wine.country+'</li>';
+        paysLIs += '<li data-id="'+idWine+'" class="list-group-item">'+wine.name+'=>'+wine.country+'</li>';
 
-        console.log(strLIs);
-    })
+    });
+    
+         //Insérer tous les LIs dans la liste UL des vins
+         listeUL.innerHTML = paysLIs;
 }
 //Liker un vin
 function like(){
-    const wineId = document.getElementById('idWine').value;
+    const likeId = document.getElementById('idWine').value;
 	const options = {
-        'method': 'POST',
+        'method': 'PUT',
         'body': { "like" : true},	
         'mode': 'cors',
         'headers': {
@@ -465,7 +549,7 @@ function like(){
         }
     };
     
-    const fetchURL = '/wines/'+wineId+'/like';
+    const fetchURL = '/wines/'+wineId+'/likeId';
     
     fetch(apiURL + fetchURL, options).then(function(response) {
         if(response.ok) {
@@ -478,9 +562,9 @@ function like(){
 
 //Non Liker un vin
 function nonLike(){
-    const wineId = document.getElementById('idWine').value;
+    const nLikeId = document.getElementById('idWine').value;
 	const options = {
-        'method': 'POST',
+        'method': 'PUT',
         'body': { "like" : false},	
         'mode': 'cors',
         'headers': {
@@ -489,7 +573,7 @@ function nonLike(){
         }
     };
     
-    const fetchURL = '/wines/'+wineId+'/like';
+    const fetchURL = '/wines/'+wineId+'/nLikeId';
     
     fetch(apiURL + fetchURL, options).then(function(response) {
         if(response.ok) {

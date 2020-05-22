@@ -38,7 +38,7 @@ main{
 }
 
 .element > img{
-    width: 30%;
+    width: 20%;
 }
 
 .caption{
@@ -49,4 +49,11 @@ main{
     text-align: center;
     background-color: rgba(255,255,255,0.4);
     padding: 30px;
+}
+
+#liste li:hover{
+    cursor: pointer;
+    background-color:#984b26 ;
+    color: #ffffff;
+    transition: .3s ease-in-out;
 }
